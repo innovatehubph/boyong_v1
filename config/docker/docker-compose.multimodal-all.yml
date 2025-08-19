@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # ComfyUI for Image and Video Generation
+  comfyui:
+    build:
+      context: .
+      dockerfile: Dockerfile.comfyui-simple
+    ports:
+      - "8188:8188"
+    volumes:
+      - ./multimodal_services/ComfyUI/models:/app/models
+      - ./multimodal_services/ComfyUI/output:/app/output
+      - ./multimodal_services/ComfyUI/input:/app/input
+      - ./multimodal_services/ComfyUI/custom_nodes:/app/custom_nodes
+      - ./pareng_boyong_deliverables:/app/deliverables
+    environment:
+      - PYTHONPATH=/app
+      - COMFYUI_LISTEN_PORT=8188
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8188/system_stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  # AudioCraft for Music Generation
+  audiocraft:
+    build:
+      context: .
+      dockerfile: Dockerfile.audiocraft
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./pareng_boyong_deliverables/audio:/app/output
+    environment:
+      - PYTHONPATH=/app
+      - AUDIOCRAFT_LISTEN_PORT=8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Bark TTS for Voice Generation
+  bark-tts:
+    build:
+      context: .
+      dockerfile: Dockerfile.bark
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./pareng_boyong_deliverables/audio:/app/output
+    environment:
+      - PYTHONPATH=/app
+      - BARK_LISTEN_PORT=8001
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+networks:
+  default:
+    name: pareng-boyong-multimodal

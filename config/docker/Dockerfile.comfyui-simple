@@ -1,0 +1,59 @@
+# ComfyUI Docker container for Pareng Boyong - CPU Version
+FROM python:3.10-slim-bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy ComfyUI source
+COPY multimodal_services/ComfyUI/ .
+
+# Install Python dependencies (CPU version for compatibility)
+RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Create requirements.txt if it doesn't exist
+RUN echo "pillow>=8.2.0" > requirements_basic.txt && \
+    echo "numpy" >> requirements_basic.txt && \
+    echo "opencv-python" >> requirements_basic.txt && \
+    echo "requests" >> requirements_basic.txt && \
+    echo "psutil" >> requirements_basic.txt && \
+    echo "aiohttp" >> requirements_basic.txt && \
+    echo "kornia" >> requirements_basic.txt && \
+    echo "transformers" >> requirements_basic.txt && \
+    echo "accelerate" >> requirements_basic.txt
+
+# Install basic requirements
+RUN pip3 install --no-cache-dir -r requirements_basic.txt
+
+# Install additional dependencies for video generation
+RUN pip3 install --no-cache-dir \
+    imageio \
+    imageio-ffmpeg \
+    scikit-image \
+    scipy
+
+# Create necessary directories
+RUN mkdir -p models/checkpoints models/vae models/loras models/controlnet models/clip_vision models/unet output input custom_nodes
+
+# Expose ComfyUI port
+EXPOSE 8188
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:8188/system_stats || exit 1
+
+# Start ComfyUI with CPU-only mode
+CMD ["python3", "main.py", "--listen", "0.0.0.0", "--port", "8188", "--cpu"]

@@ -1,0 +1,56 @@
+# ComfyUI Docker container for Pareng Boyong
+FROM nvidia/cuda:12.1-devel-ubuntu20.04
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    git \
+    wget \
+    curl \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy ComfyUI source
+COPY multimodal_services/ComfyUI/ .
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install additional dependencies for video generation
+RUN pip3 install --no-cache-dir \
+    opencv-python \
+    imageio \
+    imageio-ffmpeg \
+    decord \
+    av \
+    accelerate \
+    transformers \
+    diffusers \
+    xformers
+
+# Create necessary directories
+RUN mkdir -p models/checkpoints models/vae models/loras models/controlnet models/clip_vision models/unet output input custom_nodes
+
+# Download basic models for video generation
+# We'll add model download scripts here if needed
+
+# Expose ComfyUI port
+EXPOSE 8188
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:8188/system_stats || exit 1
+
+# Start ComfyUI
+CMD ["python3", "main.py", "--listen", "0.0.0.0", "--port", "8188"]

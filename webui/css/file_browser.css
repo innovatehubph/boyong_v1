@@ -1,0 +1,416 @@
+/* File Browser Styles */
+
+.files-list,
+.file-header,
+.file-item {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Header Styles */
+.file-header {
+  display: grid;
+  grid-template-columns: 2fr 0.6fr 1fr 100px;
+  background: var(--color-secondary);
+  padding: 12px 8px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.file-cell,
+.file-cell-size,
+.file-cell-date,
+.file-cell-actions {
+  color: var(--color-text);
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.file-cell-actions {
+  cursor: default;
+}
+
+/* File Item Styles */
+.file-item {
+  display: grid;
+  grid-template-columns: 2fr 0.6fr 1fr 100px;
+  align-items: center;
+  padding: 8px;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--color-text);
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+.file-item:hover {
+  background-color: var(--color-secondary);
+}
+
+/* File Icon and Name */
+.file-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0 1rem 0 0.7rem;
+  vertical-align: middle;
+  font-size: var(--font-size-sm);
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-right: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.file-name > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size,
+.file-date {
+  color: var(--text-secondary);
+}
+
+/* No Files Message */
+.no-files {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* Light Mode Adjustments */
+.light-mode .file-item:hover {
+  background-color: var(--color-secondary-light);
+}
+
+/* Path Navigator Styles */
+.path-navigator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--color-message-bg);
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-shortcuts {
+  display: flex;
+  gap: 8px;
+  margin-right: 12px;
+}
+
+.path-display {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.nav-button {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-background);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  min-height: 36px;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: var(--color-secondary);
+  border-color: var(--color-primary);
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-button.back-button {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.nav-button.back-button:hover:not(:disabled) {
+  background-color: var(--color-secondary-dark);
+}
+
+.nav-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+#current-path {
+  opacity: 0.9;
+}
+
+#path-text {
+  font-family: 'Roboto Mono', monospace;
+  font-optical-sizing: auto;
+  -webkit-font-optical-sizing: auto;
+  opacity: 0.9;
+}
+
+/* Folder Specific Styles */
+.file-item[data-is-dir="true"] {
+  cursor: pointer;
+}
+
+.file-item[data-is-dir="true"]:hover {
+  background-color: var(--color-secondary);
+}
+
+/* Upload Button Styles */
+.upload-button,
+.btn-upload {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-upload {
+  background: #4248f1;
+  gap: 0.5rem;
+  margin: 0 auto;
+}
+
+.btn-upload > svg {
+  width: 20px;
+}
+
+.upload-button:hover,
+.btn-upload:hover {
+  background-color: #353bc5;
+}
+
+.upload-button:active,
+.btn-upload:active {
+  background-color: #2b309c;
+}
+
+/* Delete Button Styles */
+.delete-button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  width: 32px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.delete-button:hover {
+  color: #ff7878;
+}
+
+.delete-button:active {
+  opacity: 0.6;
+}
+
+/* File Actions */
+.file-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.download-button {
+  color: var(--color-primary);
+}
+
+.download-button:hover {
+  background-color: var(--color-border);
+}
+
+.light-mode .download-button:hover {
+  background-color: #c6d4de;
+}
+
+/* Mobile File Browser Fixes */
+@media (max-width: 768px) {
+  /* Fix file browser modal for mobile - ensure solid background */
+  #fileBrowserModal .modal-container {
+    background-color: var(--color-panel) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    min-height: 80vh;
+    max-height: 95vh;
+  }
+
+  /* Ensure path navigator is visible */
+  .path-navigator {
+    background-color: var(--color-message-bg) !important;
+    border: 1px solid var(--color-border);
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Fix file list layout for mobile */
+  .file-header,
+  .file-item {
+    grid-template-columns: 1fr 0.5fr 100px;
+    background-color: var(--color-panel) !important;
+  }
+
+  .file-header {
+    background: var(--color-secondary) !important;
+    color: var(--color-text) !important;
+  }
+
+  .file-cell-date,
+  .file-date {
+    display: none;
+  }
+
+  /* Fix loading spinner visibility */
+  .loading-spinner {
+    color: var(--color-text) !important;
+    background-color: var(--color-panel) !important;
+    min-height: 150px;
+  }
+
+  /* Fix error messages */
+  .error-message {
+    color: #ff7878 !important;
+    background-color: rgba(255, 120, 120, 0.1) !important;
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+  }
+
+  /* Fix navigation buttons for mobile */
+  .nav-button {
+    min-height: 44px; /* iOS touch target size */
+    padding: 12px;
+    font-size: 14px;
+    background: var(--color-background) !important;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-border) !important;
+  }
+
+  /* Fix path display */
+  .path-display {
+    background-color: var(--color-background) !important;
+    color: var(--color-text) !important;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .file-header,
+  .file-item {
+    grid-template-columns: 1fr 100px;
+  }
+
+  .file-cell-size,
+  .file-size,
+  .file-cell-date,
+  .file-date {
+    display: none;
+  }
+
+  /* Make navigation shortcuts stack vertically on small screens */
+  .nav-shortcuts {
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .nav-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Error Message Styles */
+.error-message {
+  color: #ff7878;
+  background-color: rgba(255, 120, 120, 0.1);
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  text-align: center;
+  border: 1px solid rgba(255, 120, 120, 0.3);
+}
+
+/* Debug Info Styles */
+.debug-info {
+  color: var(--color-text);
+  background-color: rgba(100, 100, 100, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Loading Spinner Styles */
+.loading-spinner {
+  padding: 32px;
+  text-align: center;
+  color: var(--color-text);
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background-color: var(--color-panel);
+}
+
+.loading-spinner::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: file-browser-spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes file-browser-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  localai:
+    image: quay.io/go-skynet/local-ai:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./localai_models:/models
+      - ./localai_data:/tmp/localai/
+    environment:
+      - DEBUG=true
+      - MODELS_PATH=/models
+      - THREADS=4  # CPU threads to use
+      - CONTEXT_SIZE=2048
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/models"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    command: >
+      /usr/bin/local-ai
+      --models-path=/models
+      --debug=true
+      --threads=4
+      --f16=true
+
+networks:
+  default:
+    name: pareng-boyong-multimodal

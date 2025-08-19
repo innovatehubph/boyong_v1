@@ -1,0 +1,42 @@
+# Bark TTS Docker container for Pareng Boyong  
+FROM python:3.10-slim-bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    ffmpeg \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy Bark TTS server
+COPY multimodal_services/bark_server.py .
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir \
+    torch \
+    transformers \
+    bark \
+    flask \
+    flask-cors \
+    requests \
+    numpy \
+    soundfile \
+    scipy
+
+# Create output directory
+RUN mkdir -p output
+
+# Expose Bark TTS port
+EXPOSE 8001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+# Start Bark TTS server
+CMD ["python3", "bark_server.py"]

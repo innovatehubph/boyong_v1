@@ -1,0 +1,44 @@
+# Wan2GP Docker container for CPU video generation
+FROM python:3.10-slim-bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    ffmpeg \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Create app directory structure (skip git clone for now, implement API directly)
+RUN mkdir -p models output
+
+# Install Python dependencies (CPU version for VPS compatibility)
+RUN pip3 install --no-cache-dir \
+    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+    pip3 install --no-cache-dir \
+    flask \
+    flask-cors \
+    aiohttp \
+    opencv-python \
+    pillow \
+    numpy \
+    diffusers \
+    transformers \
+    accelerate
+
+# Create API wrapper
+COPY wan2gp_server.py .
+
+# Expose Wan2GP port
+EXPOSE 8082
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+    CMD curl -f http://localhost:8082/health || exit 1
+
+# Start Wan2GP server
+CMD ["python3", "wan2gp_server.py"]

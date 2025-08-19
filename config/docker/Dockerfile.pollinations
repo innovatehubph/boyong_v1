@@ -1,0 +1,36 @@
+# Pollinations.AI Docker container for image generation
+FROM python:3.10-slim-bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir \
+    flask \
+    flask-cors \
+    requests \
+    pillow \
+    aiohttp
+
+# Create API wrapper for Pollinations
+COPY pollinations_server.py .
+
+# Create output directory
+RUN mkdir -p output
+
+# Expose Pollinations port  
+EXPOSE 8081
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:8081/health || exit 1
+
+# Start Pollinations server
+CMD ["python3", "pollinations_server.py"]

@@ -1,0 +1,163 @@
+# Video Processing Service for Pareng Boyong
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy video processing components
+COPY python/helpers/video_generation.py helpers/
+COPY python/tools/video_generator.py tools/
+COPY python/tools/advanced_video_generator.py tools/
+
+# Create a simple video processing service
+COPY <<EOF video_service.py
+"""
+Video Processing Service for Pareng Boyong
+Provides HTTP API for video generation
+"""
+
+import asyncio
+import json
+from aiohttp import web, ClientSession
+import logging
+import sys
+import os
+
+# Add paths
+sys.path.append('/app')
+sys.path.append('/app/helpers')
+sys.path.append('/app/tools')
+
+from video_generation import VideoGenerator
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+video_gen = VideoGenerator()
+
+async def health_check(request):
+    """Health check endpoint"""
+    return web.json_response({"status": "healthy", "service": "video-processor"})
+
+async def generate_video_endpoint(request):
+    """Generate video via HTTP API"""
+    try:
+        data = await request.json()
+        
+        # Initialize video generator if needed
+        await video_gen.initialize()
+        
+        # Generate video
+        result = await video_gen.generate_video(
+            prompt=data.get('prompt', ''),
+            duration=data.get('duration', 6),
+            fps=data.get('fps', 8),
+            width=data.get('width', 720),
+            height=data.get('height', 480),
+            model_preference=data.get('model_preference', 'cogvideo')
+        )
+        
+        if result:
+            return web.json_response({
+                "success": True,
+                "video_base64": result,
+                "message": "Video generated successfully"
+            })
+        else:
+            return web.json_response({
+                "success": False,
+                "error": "Video generation failed"
+            }, status=500)
+            
+    except Exception as e:
+        logger.error(f"Video generation error: {e}")
+        return web.json_response({
+            "success": False,
+            "error": str(e)
+        }, status=500)
+
+async def animate_image_endpoint(request):
+    """Animate image via HTTP API"""
+    try:
+        data = await request.json()
+        
+        # Initialize video generator if needed
+        await video_gen.initialize()
+        
+        # Animate image
+        result = await video_gen.animate_image(
+            image_base64=data.get('image_base64', ''),
+            prompt=data.get('prompt', ''),
+            duration=data.get('duration', 4),
+            fps=data.get('fps', 8)
+        )
+        
+        if result:
+            return web.json_response({
+                "success": True,
+                "video_base64": result,
+                "message": "Image animated successfully"
+            })
+        else:
+            return web.json_response({
+                "success": False,
+                "error": "Image animation failed"
+            }, status=500)
+            
+    except Exception as e:
+        logger.error(f"Image animation error: {e}")
+        return web.json_response({
+            "success": False,
+            "error": str(e)
+        }, status=500)
+
+async def status_endpoint(request):
+    """Get service status"""
+    await video_gen.initialize()
+    
+    return web.json_response({
+        "comfyui_available": video_gen.comfyui_url is not None,
+        "hunyuan_available": video_gen.hunyuan_available,
+        "cogvideo_available": video_gen.cogvideo_available,
+        "animatediff_available": video_gen.animatediff_available,
+        "comfyui_url": video_gen.comfyui_url
+    })
+
+async def init_app():
+    """Initialize the web application"""
+    app = web.Application()
+    
+    # Add routes
+    app.router.add_get('/health', health_check)
+    app.router.add_get('/status', status_endpoint)
+    app.router.add_post('/generate', generate_video_endpoint)
+    app.router.add_post('/animate', animate_image_endpoint)
+    
+    return app
+
+if __name__ == '__main__':
+    app = init_app()
+    web.run_app(app, host='0.0.0.0', port=8189)
+EOF
+
+# Install Python dependencies
+RUN pip install --no-cache-dir \
+    aiohttp \
+    aiofiles \
+    requests
+
+# Expose service port
+EXPOSE 8189
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:8189/health || exit 1
+
+# Start video processing service
+CMD ["python", "/app/video_service.py"]

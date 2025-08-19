@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff6b35;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="aiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff0080;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" stroke="#00ffff" stroke-width="4" filter="url(#glow)"/>
+  
+  <!-- Philippine Flag Colors Accent -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#ffd700" stroke-width="2" opacity="0.3"/>
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Main "PB" Text -->
+  <text x="256" y="280" font-family="Arial Black, sans-serif" font-size="160" font-weight="900" 
+        text-anchor="middle" fill="url(#pbGradient)" stroke="#fff" stroke-width="2" filter="url(#glow)">PB</text>
+  
+  <!-- AI Circuit Pattern -->
+  <g stroke="url(#aiGradient)" stroke-width="2" fill="none" opacity="0.6">
+    <!-- Circuit lines -->
+    <path d="M 180 120 L 220 120 L 240 140 L 280 140"/>
+    <path d="M 320 120 L 360 120 L 380 140 L 400 160"/>
+    <path d="M 120 180 L 140 180 L 160 200 L 180 200"/>
+    <path d="M 340 180 L 380 180 L 400 200 L 420 220"/>
+    <path d="M 180 340 L 220 340 L 240 360 L 280 360"/>
+    <path d="M 320 340 L 360 340 L 380 360 L 400 380"/>
+    
+    <!-- Circuit nodes -->
+    <circle cx="200" cy="120" r="6" fill="url(#aiGradient)"/>
+    <circle cx="350" cy="140" r="6" fill="url(#aiGradient)"/>
+    <circle cx="140" cy="200" r="6" fill="url(#aiGradient)"/>
+    <circle cx="380" cy="200" r="6" fill="url(#aiGradient)"/>
+    <circle cx="220" cy="340" r="6" fill="url(#aiGradient)"/>
+    <circle cx="350" cy="360" r="6" fill="url(#aiGradient)"/>
+  </g>
+  
+  <!-- Filipino Cultural Elements -->
+  <g opacity="0.4">
+    <!-- Sun rays inspired by Philippine flag -->
+    <g stroke="#ffd700" stroke-width="3" fill="none">
+      <path d="M 256 80 L 256 60" transform="rotate(0 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(45 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(90 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(135 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(180 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(225 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(270 256 256)"/>
+      <path d="M 256 80 L 256 60" transform="rotate(315 256 256)"/>
+    </g>
+  </g>
+  
+  <!-- "AI AGENT" subtitle -->
+  <text x="256" y="380" font-family="Arial, sans-serif" font-size="24" font-weight="600" 
+        text-anchor="middle" fill="rgba(255,255,255,0.9)" opacity="0.8">AI AGENT</text>
+  
+  <!-- "PHILIPPINES" text -->
+  <text x="256" y="405" font-family="Arial, sans-serif" font-size="16" font-weight="500" 
+        text-anchor="middle" fill="rgba(255,215,0,0.8)">PHILIPPINES</text>
+  
+  <!-- Subtle "InnovateHub" branding -->
+  <text x="256" y="430" font-family="Arial, sans-serif" font-size="12" font-weight="400" 
+        text-anchor="middle" fill="rgba(255,255,255,0.5)">by InnovateHub PH</text>
+        
+  <!-- Additional glow effect for the logo -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="url(#aiGradient)" stroke-width="1" opacity="0.3" filter="url(#glow)"/>
+</svg>

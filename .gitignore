@@ -1,0 +1,184 @@
+# Pareng Boyong - Clean Repository .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+.venv/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Environment variables (keep .env.example but ignore actual .env)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+logs/
+*.log.*
+rfc_http.pid
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Cache and temporary files
+.cache/
+.tmp/
+tmp/
+*.tmp
+*.temp
+*~
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# AI Models (large files - install separately)
+models/
+*.gguf
+*.ggml
+*.bin
+*.safetensors
+*.pt
+*.pth
+localai_models/
+wan2gp_models/
+
+# Generated content and deliverables
+pareng_boyong_deliverables/
+deliverables/
+data/deliverables/
+data/logs/
+data/backups/
+data/cache/
+
+# Memory and embeddings (generated at runtime)
+memory/embeddings/
+*.faiss
+*.pkl
+embedding.json
+
+# Browser automation
+playwright/
+chrome-linux/
+headless_shell
+
+# Docker runtime data
+.dockerignore
+
+# Backup files
+*.backup
+*-backup-*
+backup_*/
+backups/
+webui-backup-*/
+
+# Test files and output
+test_deliverables/
+test_response.json
+*.test.js
+coverage/
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# SSH keys and sensitive files
+*.pem
+*.key
+ssh_solution_report.json
+
+# MCP test results (generated at runtime)
+mcp_test_results.json
+
+# Large media files (should be downloaded separately)
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.flac
+
+# Optimization report (generated)
+optimization_report.md
+
+# Service data directories
+multimodal_services/data/
+services/*/data/
+services/*/models/
+
+# User projects (separate repository)
+projects/
+pareng-boyong-projects/
+
+# Original and backup webui
+original-webui/
+webui-backup-*/
+
+# Compressed logs
+*.gz
+*.zip
+*.tar.gz
+
+# Large assets
+assets/images/*.png
+assets/images/*.jpg
+assets/images/*.jpeg
+assets/templates/pareng-boyong-landing/
+
+# Runtime configuration that gets generated
+instruments/custom/
+activated_services_status.md
+RESTART_NEEDED
+
+# Development containers and docker-compose overrides
+docker-compose.override.yml
+docker-compose.local.yml

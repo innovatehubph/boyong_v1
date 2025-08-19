@@ -1,0 +1,136 @@
+{
+  "name": "Pareng Boyong - Filipino Super AI Agent",
+  "short_name": "Pareng Boyong",
+  "description": "Your intelligent Filipino coding assistant with world-class technical capabilities, authentic Filipino culture, and advanced multimedia support. Experience AI with bayanihan spirit!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1419",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "developer", "utilities", "ai", "assistant", "filipino", "philippines"],
+  "lang": "en-PH",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "icons": [
+    {
+      "src": "pareng-boyong-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "pareng-boyong-favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "pareng-boyong-favicon.png",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "innovatehub-logo.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "pareng-boyong-favicon.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Pareng Boyong AI Assistant Interface"
+    },
+    {
+      "src": "pareng-boyong-favicon.png", 
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Pareng Boyong Mobile Experience"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Chat",
+      "short_name": "New Chat",
+      "description": "Start a new conversation with Pareng Boyong",
+      "url": "/",
+      "icons": [
+        {
+          "src": "pareng-boyong-favicon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Filipino Mode",
+      "short_name": "Filipino",
+      "description": "Switch to Filipino cultural mode",
+      "url": "/?mode=filipino",
+      "icons": [
+        {
+          "src": "pareng-boyong-favicon.png", 
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Code Assistant",
+      "short_name": "Code",
+      "description": "Get coding help from Pareng Boyong",
+      "url": "/?mode=coding",
+      "icons": [
+        {
+          "src": "pareng-boyong-favicon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp", 
+      "url": "https://ai.innovatehub.ph/",
+      "id": "pareng-boyong-ai"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+parenbboyong",
+      "url": "/?action=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/plain": [".txt", ".md"],
+        "text/javascript": [".js"],
+        "text/html": [".html"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate"
+}

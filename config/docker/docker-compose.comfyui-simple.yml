@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  comfyui:
+    build:
+      context: .
+      dockerfile: Dockerfile.comfyui-simple
+    ports:
+      - "8188:8188"
+    volumes:
+      - ./multimodal_services/ComfyUI/models:/app/models
+      - ./multimodal_services/ComfyUI/output:/app/output
+      - ./multimodal_services/ComfyUI/input:/app/input
+      - ./multimodal_services/ComfyUI/custom_nodes:/app/custom_nodes
+      - ./pareng_boyong_deliverables:/app/deliverables
+    environment:
+      - PYTHONPATH=/app
+      - COMFYUI_LISTEN_PORT=8188
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8188/system_stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+networks:
+  default:
+    name: pareng-boyong-multimodal
